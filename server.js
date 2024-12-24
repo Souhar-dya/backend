@@ -7,7 +7,7 @@ require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());
-const mongoURI = process.env.MONGO_URI;
+const mongoURI = process.env.MONGODB_URI;
 
 if (!mongoURI) {
   console.error('MONGO_URI is not defined in the environment variables.');
