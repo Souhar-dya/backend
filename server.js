@@ -7,15 +7,23 @@ require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());
+const mongoURI = process.env.MONGO_URI;
 
-// Connect to MongoDB
-mongoose.connect("mongodb+srv://kundusouhardya:o3dDwiVF2lp45DpZ@cluster0.rti30.mongodb.net/JobFinder", {
+if (!mongoURI) {
+  console.error('MONGO_URI is not defined in the environment variables.');
+  process.exit(1); // Exit the process if MongoDB URI is not defined
+}
+
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => {
+})
+.then(() => {
     console.log('MongoDB connected');
-}).catch(err => console.log(err));
-
+})
+.catch(err => {
+    console.error('Error connecting to MongoDB:', err.message);
+});
 
 // Create a Job schema
 const jobSchema = new mongoose.Schema({
