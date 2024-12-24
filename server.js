@@ -7,14 +7,9 @@ require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());
-const mongoURI = process.env.MONGODB_URI;
+ 
 
-if (!mongoURI) {
-  console.error('MONGO_URI is not defined in the environment variables.');
-  process.exit(1); // Exit the process if MongoDB URI is not defined
-}
-
-mongoose.connect(mongoURI, {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
