@@ -3,12 +3,13 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5000;
+require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/JobFinder', {
+mongoose.connect("mongodb+srv://kundusouhardya:o3dDwiVF2lp45DpZ@cluster0.rti30.mongodb.net/JobFinder", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
@@ -48,6 +49,14 @@ app.get('/api/jobs', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+app.get('/', async (req, res) => {
+    try {
+      const jobs = await Job.find();  // Fetch all jobs from the database
+      res.json(jobs);  // Return all jobs as a JSON response
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
